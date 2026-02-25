@@ -264,6 +264,37 @@ async def update_profile(profile: ProfileUpdate, current_user: dict = Depends(ge
     updated = await db.users.find_one({"id": current_user["id"]}, USER_PROJECTION)
     return {"message": "Perfil actualizado", "user": updated}
 
+
+@api_router.delete("/users/profile")
+async def delete_profile(current_user: dict = Depends(get_current_user)):
+    user_id = current_user["id"]
+
+    # Eliminar usuario y todos los datos relacionados
+    await db.users.delete_one({"id": user_id})
+
+    # Eliminar swipes enviados y recibidos
+    await db.swipes.delete_many({"$or": [{"swiper_id": user_id}, {"target_id": user_id}]})
+
+    # Obtener matches relacionados para limpiar mensajes y citas
+    related_matches = await db.matches.find(
+        {"$or": [{"user1_id": user_id}, {"user2_id": user_id}]},
+        {"_id": 0, "id": 1}
+    ).to_list(1000)
+    match_ids = [m["id"] for m in related_matches]
+
+    if match_ids:
+        await db.messages.delete_many({"match_id": {"$in": match_ids}})
+        await db.date_requests.delete_many({"match_id": {"$in": match_ids}})
+
+    # Eliminar cualquier solicitud de cita restante del usuario
+    await db.date_requests.delete_many({"$or": [{"requester_id": user_id}, {"recipient_id": user_id}]})
+
+    # Eliminar matches y soporte del usuario
+    await db.matches.delete_many({"$or": [{"user1_id": user_id}, {"user2_id": user_id}]})
+    await db.support_tickets.delete_many({"user_id": user_id})
+
+    return {"message": "Cuenta eliminada exitosamente"}
+
 @api_router.get("/users/potential-matches")
 async def get_potential_matches(current_user: dict = Depends(get_current_user)):
     user_id = current_user["id"]
