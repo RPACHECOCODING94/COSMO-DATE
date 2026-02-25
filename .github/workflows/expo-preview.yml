@@ -10,5 +10,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Expo CLI
+        run: npm install --global expo eas-cli
+
       - name: Expo Preview Action
         uses: expo/expo-preview-action@v1.2.2
