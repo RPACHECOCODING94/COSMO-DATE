@@ -18,5 +18,15 @@ jobs:
       - name: Install Expo CLI
         run: npm install --global expo eas-cli
 
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: yarn install --non-interactive
+
       - name: Expo Preview Action
         uses: expo/expo-preview-action@v1.2.2
+        with:
+          working-directory: frontend
+          project-root: frontend
