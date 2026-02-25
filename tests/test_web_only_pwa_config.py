@@ -24,11 +24,18 @@ def test_package_scripts_default_to_web():
     assert "android" not in scripts
 
 
-def test_metro_prioritizes_web_extensions():
+def test_metro_uses_default_platform_resolution():
     metro_config = Path("frontend/metro.config.js").read_text(encoding="utf-8")
 
-    assert "webFirstSourceExts" in metro_config
-    assert '"web.tsx"' in metro_config
-    assert '"web.ts"' in metro_config
-    assert '"web.jsx"' in metro_config
-    assert '"web.js"' in metro_config
+    assert "getDefaultConfig" in metro_config
+    assert "Keep default sourceExts" in metro_config
+    assert "webFirstSourceExts" not in metro_config
+
+
+def test_root_eas_json_exists_for_eas_cli():
+    eas_json = Path("eas.json")
+    assert eas_json.exists()
+
+    data = json.loads(eas_json.read_text(encoding="utf-8"))
+    assert "build" in data
+    assert "preview" in data["build"]

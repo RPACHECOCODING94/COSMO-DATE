@@ -2,6 +2,16 @@
 
 Este frontend está configurado para ejecutarse como **aplicación web (PWA)** usando Expo + React Native Web.
 
+## ¿Es HTML?
+
+Sí, se ejecuta en el navegador y termina renderizando en HTML/CSS/JS.
+
+- El código fuente está en React Native/Expo (`.tsx`, `.ts`).
+- Metro + React Native Web lo adaptan para web.
+- Para web, puedes crear variantes como `Componente.web.tsx`.
+
+> No es una app nativa Android/iOS en este repositorio; el flujo principal es web/PWA.
+
 ## Requisitos
 
 - Node.js 18+
@@ -23,24 +33,18 @@ Este frontend está configurado para ejecutarse como **aplicación web (PWA)** u
 
 3. Abre la URL mostrada por Expo en tu navegador.
 
-## Extensiones soportadas (resolución web-first)
+## Resolución de archivos por plataforma
 
-Metro está configurado para priorizar archivos específicos para web en este orden:
+Expo/Metro ya maneja la resolución por plataforma automáticamente. Ejemplo recomendado:
 
-1. `*.web.tsx`
-2. `*.web.ts`
-3. `*.web.jsx`
-4. `*.web.js`
-5. resto de extensiones por defecto de Expo/Metro
+- `Card.tsx` (base)
+- `Card.web.tsx` (solo web)
+- `Card.native.tsx` (solo nativo, si existiera)
 
-Esto permite mantener implementaciones específicas para navegador sin romper el flujo compartido.
+No se fuerza una lista manual de extensiones web en Metro, para evitar configuraciones inválidas.
 
 ## Scripts disponibles
 
 - `npm run start` → inicia Expo en modo web.
 - `npm run web` → alias de `start`.
 - `npm run lint` → validación de código.
-
-## Nota
-
-La configuración del repositorio prioriza web; no se mantiene flujo activo para `ios`/`android` en scripts.
