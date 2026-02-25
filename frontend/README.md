@@ -1,50 +1,46 @@
-# Welcome to your Expo app 👋
+# COSMO-DATE Frontend (Web/PWA)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este frontend está configurado para ejecutarse como **aplicación web (PWA)** usando Expo + React Native Web.
 
-## Get started
+## Requisitos
 
-1. Install dependencies
+- Node.js 18+
+- npm 9+
+
+## Ejecución local
+
+1. Instala dependencias:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Inicia el servidor en modo web:
 
    ```bash
-   npx expo start
+   npm run start
    ```
 
-In the output, you'll find options to open the app in a
+3. Abre la URL mostrada por Expo en tu navegador.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Extensiones soportadas (resolución web-first)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Metro está configurado para priorizar archivos específicos para web en este orden:
 
-## Get a fresh project
+1. `*.web.tsx`
+2. `*.web.ts`
+3. `*.web.jsx`
+4. `*.web.js`
+5. resto de extensiones por defecto de Expo/Metro
 
-When you're ready, run:
+Esto permite mantener implementaciones específicas para navegador sin romper el flujo compartido.
 
-```bash
-npm run reset-project
-```
+## Scripts disponibles
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- `npm run start` → inicia Expo en modo web.
+- `npm run web` → alias de `start`.
+- `npm run lint` → validación de código.
 
-## Learn more
+## Nota
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+La configuración del repositorio prioriza web; no se mantiene flujo activo para `ios`/`android` en scripts.

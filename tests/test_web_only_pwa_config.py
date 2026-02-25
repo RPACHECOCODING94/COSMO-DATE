@@ -22,3 +22,13 @@ def test_package_scripts_default_to_web():
     assert scripts.get("web") == "expo start --web"
     assert "ios" not in scripts
     assert "android" not in scripts
+
+
+def test_metro_prioritizes_web_extensions():
+    metro_config = Path("frontend/metro.config.js").read_text(encoding="utf-8")
+
+    assert "webFirstSourceExts" in metro_config
+    assert '"web.tsx"' in metro_config
+    assert '"web.ts"' in metro_config
+    assert '"web.jsx"' in metro_config
+    assert '"web.js"' in metro_config
