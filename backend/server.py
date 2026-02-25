@@ -268,6 +268,7 @@ async def update_profile(profile: ProfileUpdate, current_user: dict = Depends(ge
 @api_router.delete("/users/profile")
 async def delete_profile(current_user: dict = Depends(get_current_user)):
     user_id = current_user["id"]
+    match_cleanup_batch_size = 500
 
     # Eliminar usuario y todos los datos relacionados
     await db.users.delete_one({"id": user_id})
@@ -276,14 +277,19 @@ async def delete_profile(current_user: dict = Depends(get_current_user)):
     await db.swipes.delete_many({"$or": [{"swiper_id": user_id}, {"target_id": user_id}]})
 
     # Obtener matches relacionados para limpiar mensajes y citas sin truncar resultados.
+    # Se procesan en lotes para cubrir cualquier volumen sin consumir demasiada memoria.
     match_cursor = db.matches.find(
         {"$or": [{"user1_id": user_id}, {"user2_id": user_id}]},
         {"_id": 0, "id": 1}
     )
     match_ids_batch = []
     async for match in match_cursor:
-        match_ids_batch.append(match["id"])
-        if len(match_ids_batch) >= 500:
+        match_id = match.get("id")
+        if not match_id:
+            continue
+
+        match_ids_batch.append(match_id)
+        if len(match_ids_batch) >= match_cleanup_batch_size:
             await db.messages.delete_many({"match_id": {"$in": match_ids_batch}})
             await db.date_requests.delete_many({"match_id": {"$in": match_ids_batch}})
             match_ids_batch.clear()
