@@ -1,0 +1,13 @@
+{
+  "name": "cosmo-date-root",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "start": "npm --prefix frontend run start",
+    "web": "npm --prefix frontend run web",
+    "lint": "npm --prefix frontend run lint"
+  }
+}
