@@ -30,7 +30,6 @@ export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { user, updateUser, logout } = useAuth();
-  const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [bio, setBio] = useState(user?.bio || '');
   const [preferredGender, setPreferredGender] = useState(user?.preferred_gender || 'todos');
