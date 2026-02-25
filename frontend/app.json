@@ -8,27 +8,6 @@
     "scheme": "cosmodate",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.cosmodate.app",
-      "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "Selecciona tu foto de perfil",
-        "NSCameraUsageDescription": "Toma fotos para tu perfil"
-      }
-    },
-    "android": {
-      "package": "com.cosmodate.app",
-      "versionCode": 1,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#0A0A1A"
-      },
-      "permissions": [
-        "INTERNET",
-        "READ_EXTERNAL_STORAGE",
-        "CAMERA"
-      ]
-    },
     "web": {
       "bundler": "metro",
       "output": "static",

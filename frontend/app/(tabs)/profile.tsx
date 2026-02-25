@@ -29,7 +29,8 @@ const GENDER_PREFERENCES = [
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { user, updateUser, logout, refreshUser } = useAuth();
+  const { user, updateUser, logout } = useAuth();
+  const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [bio, setBio] = useState(user?.bio || '');
   const [preferredGender, setPreferredGender] = useState(user?.preferred_gender || 'todos');
@@ -58,7 +59,7 @@ export default function ProfileScreen() {
         await api.put('/users/profile', { profile_photo: newPhoto });
         updateUser({ profile_photo: newPhoto });
         Alert.alert('Éxito', 'Foto de perfil actualizada');
-      } catch (error) {
+      } catch {
         Alert.alert('Error', 'No se pudo actualizar la foto');
       }
     }
@@ -79,6 +80,34 @@ export default function ProfileScreen() {
     } finally {
       setIsSaving(false);
     }
+  };
+
+
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      'Dar de baja cuenta',
+      'Esta acción eliminará permanentemente tu cuenta, incluyendo tu CURP y correo. ¿Deseas continuar?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Eliminar',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setIsDeleting(true);
+              await api.delete('/users/profile');
+              await logout();
+              Alert.alert('Cuenta eliminada', 'Tu cuenta fue eliminada correctamente.');
+              router.replace('/');
+            } catch (error: any) {
+              Alert.alert('Error', error.response?.data?.detail || 'No se pudo eliminar la cuenta');
+            } finally {
+              setIsDeleting(false);
+            }
+          },
+        },
+      ]
+    );
   };
 
   const handleLogout = () => {
@@ -242,6 +271,23 @@ export default function ProfileScreen() {
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Ionicons name="log-out-outline" size={20} color="#FF6B6B" />
           <Text style={styles.logoutText}>Cerrar sesión</Text>
+        </TouchableOpacity>
+
+
+        {/* Delete Account Button */}
+        <TouchableOpacity
+          style={[styles.deleteButton, isDeleting && styles.deleteButtonDisabled]}
+          onPress={handleDeleteAccount}
+          disabled={isDeleting}
+        >
+          {isDeleting ? (
+            <ActivityIndicator size="small" color="#FFFFFF" />
+          ) : (
+            <>
+              <Ionicons name="trash-outline" size={20} color="#FFFFFF" />
+              <Text style={styles.deleteText}>Dar de baja cuenta</Text>
+            </>
+          )}
         </TouchableOpacity>
 
         {/* Version */}
@@ -441,6 +487,25 @@ const styles = StyleSheet.create({
     color: '#FF6B6B',
     fontSize: 16,
     marginLeft: 8,
+  },
+
+  deleteButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 12,
+    backgroundColor: '#D64545',
+    marginBottom: 12,
+  },
+  deleteButtonDisabled: {
+    opacity: 0.6,
+  },
+  deleteText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    marginLeft: 8,
+    fontWeight: '600',
   },
   versionText: {
     color: 'rgba(255,255,255,0.3)',
