@@ -8,6 +8,8 @@ def test_backend_exposes_delete_profile_endpoint():
     assert 'db.users.delete_one' in server
     assert '.to_list(1000)' not in server
     assert 'async for match in match_cursor' in server
+    assert 'match_cleanup_batch_size = 500' in server
+    assert 'match_id = match.get("id")' in server
 
 
 def test_profile_screen_has_delete_account_action():
