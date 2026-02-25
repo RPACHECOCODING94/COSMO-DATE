@@ -1,0 +1,14 @@
+name: Expo Preview
+
+on:
+  pull_request:
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Expo Preview Action
+        uses: expo/expo-preview-action@v1.2.2
