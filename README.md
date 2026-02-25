@@ -52,3 +52,10 @@ Para backend revisa:
 
 - `backend/server.py`
 - `backend/requirements.txt`
+
+## EAS / Expo.dev
+
+Si ejecutas comandos de EAS desde la raíz del repositorio, EAS CLI espera encontrar `eas.json` en la raíz (`/COSMO-DATE/eas.json`).
+
+- Ya se incluye `eas.json` a nivel raíz para evitar el error: `Failed to read "/COSMO-DATE/eas.json"`.
+- También puedes ejecutar comandos entrando a `frontend/` si prefieres trabajar solo en esa carpeta.

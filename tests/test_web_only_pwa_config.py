@@ -30,3 +30,12 @@ def test_metro_uses_default_platform_resolution():
     assert "getDefaultConfig" in metro_config
     assert "Keep default sourceExts" in metro_config
     assert "webFirstSourceExts" not in metro_config
+
+
+def test_root_eas_json_exists_for_eas_cli():
+    eas_json = Path("eas.json")
+    assert eas_json.exists()
+
+    data = json.loads(eas_json.read_text(encoding="utf-8"))
+    assert "build" in data
+    assert "preview" in data["build"]
