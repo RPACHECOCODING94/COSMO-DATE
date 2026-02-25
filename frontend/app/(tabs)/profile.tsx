@@ -29,7 +29,7 @@ const GENDER_PREFERENCES = [
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { user, updateUser, logout, refreshUser } = useAuth();
+  const { user, updateUser, logout } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [bio, setBio] = useState(user?.bio || '');
   const [preferredGender, setPreferredGender] = useState(user?.preferred_gender || 'todos');
@@ -58,7 +58,7 @@ export default function ProfileScreen() {
         await api.put('/users/profile', { profile_photo: newPhoto });
         updateUser({ profile_photo: newPhoto });
         Alert.alert('Éxito', 'Foto de perfil actualizada');
-      } catch (error) {
+      } catch {
         Alert.alert('Error', 'No se pudo actualizar la foto');
       }
     }
