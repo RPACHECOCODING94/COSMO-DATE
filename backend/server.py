@@ -275,12 +275,12 @@ async def delete_profile(current_user: dict = Depends(get_current_user)):
     # Eliminar swipes enviados y recibidos
     await db.swipes.delete_many({"$or": [{"swiper_id": user_id}, {"target_id": user_id}]})
 
-    # Obtener matches relacionados para limpiar mensajes y citas
-    related_matches = await db.matches.find(
+    # Obtener todos los matches relacionados para limpiar mensajes y citas
+    related_matches_cursor = db.matches.find(
         {"$or": [{"user1_id": user_id}, {"user2_id": user_id}]},
         {"_id": 0, "id": 1}
-    ).to_list(1000)
-    match_ids = [m["id"] for m in related_matches]
+    )
+    match_ids = [m["id"] async for m in related_matches_cursor]
 
     if match_ids:
         await db.messages.delete_many({"match_id": {"$in": match_ids}})
