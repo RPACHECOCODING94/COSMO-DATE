@@ -59,3 +59,5 @@ Si ejecutas comandos de EAS desde la raíz del repositorio, EAS CLI espera encon
 
 - Ya se incluye `eas.json` a nivel raíz para evitar el error: `Failed to read "/COSMO-DATE/eas.json"`.
 - También puedes ejecutar comandos entrando a `frontend/` si prefieres trabajar solo en esa carpeta.
+
+- Si también aparece `Failed to read "/cosmo-date/package.json"`, usa el `package.json` de la raíz (incluido en el repo) o ejecuta comandos dentro de `frontend/`.
