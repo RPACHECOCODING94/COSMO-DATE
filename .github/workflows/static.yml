@@ -46,7 +46,8 @@ jobs:
         run: npm --prefix frontend ci
 
       - name: Export static web build
-        run: npx expo export --platform web --output-dir frontend/dist
+        working-directory: frontend
+        run: npx expo export --platform web --output-dir dist
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

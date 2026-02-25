@@ -22,8 +22,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install backend dependencies
-        run: pip install -r backend/requirements.txt
+      - name: Install test dependencies
+        run: pip install pytest
 
       - name: Run tests
         run: pytest -q
