@@ -284,7 +284,7 @@ async def delete_profile(current_user: dict = Depends(get_current_user)):
 
     if match_ids:
         await db.messages.delete_many({"match_id": {"$in": match_ids}})
-        await db.dates.delete_many({"match_id": {"$in": match_ids}})
+        await db.date_requests.delete_many({"match_id": {"$in": match_ids}})
 
     # Eliminar matches y soporte del usuario
     await db.matches.delete_many({"$or": [{"user1_id": user_id}, {"user2_id": user_id}]})
