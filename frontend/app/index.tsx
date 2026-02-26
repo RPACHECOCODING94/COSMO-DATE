@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -12,6 +12,16 @@ const ZODIAC_SYMBOLS = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', 
 export default function WelcomeScreen() {
   const router = useRouter();
   const { user, isLoading } = useAuth();
+
+  const zodiacLayout = useMemo(
+    () =>
+      ZODIAC_SYMBOLS.map(() => ({
+        top: Math.random() * (height * 0.5),
+        left: Math.random() * (width - 40),
+        opacity: 0.1 + Math.random() * 0.2,
+      })),
+    []
+  );
 
   useEffect(() => {
     if (!isLoading && user) {
@@ -40,11 +50,7 @@ export default function WelcomeScreen() {
               key={index}
               style={[
                 styles.zodiacSymbol,
-                {
-                  top: Math.random() * (height * 0.5),
-                  left: Math.random() * (width - 40),
-                  opacity: 0.1 + Math.random() * 0.2,
-                },
+                zodiacLayout[index],
               ]}
             >
               {symbol}
