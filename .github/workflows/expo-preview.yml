@@ -3,9 +3,16 @@ name: Expo Preview
 on:
   pull_request:
 
+permissions:
+  contents: read
+  pull-requests: write
+  packages: read
+
 jobs:
   preview:
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,9 +23,6 @@ jobs:
           node-version: 20
           cache: npm
           cache-dependency-path: package-lock.json
-
-      - name: Install Expo CLI
-        run: npm install --global expo eas-cli
 
       - name: Install frontend dependencies
         run: npm ci
