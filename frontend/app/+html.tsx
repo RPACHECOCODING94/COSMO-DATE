@@ -7,7 +7,7 @@ export default function Root({ children }: PropsWithChildren) {
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         
         {/* PWA Meta Tags */}
         <meta name="theme-color" content="#0A0A1A" />
@@ -17,6 +17,8 @@ export default function Root({ children }: PropsWithChildren) {
         <meta name="apple-mobile-web-app-title" content="Cosmo Date" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="application-name" content="Cosmo Date" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="HandheldFriendly" content="true" />
         <meta name="msapplication-TileColor" content="#0A0A1A" />
         <meta name="msapplication-tap-highlight" content="no" />
         
@@ -25,11 +27,11 @@ export default function Root({ children }: PropsWithChildren) {
         <meta name="keywords" content="dating, zodiac, citas, hermosillo, sonora, compatibilidad, horoscopo" />
         
         {/* PWA Manifest */}
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="./manifest.json" />
         
         {/* Icons */}
-        <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
-        <link rel="apple-touch-icon" href="/assets/images/icon.png" />
+        <link rel="icon" type="image/png" href="./assets/images/favicon.png" />
+        <link rel="apple-touch-icon" href="./assets/images/icon.png" />
         
         <title>Cosmo Date - Encuentra tu conexión celestial</title>
         
