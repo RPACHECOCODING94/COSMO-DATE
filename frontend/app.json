@@ -49,6 +49,12 @@
       "eas": {
         "projectId": "cosmo-date-app"
       }
+    },
+    "ios": {
+      "bundleIdentifier": "com.cosmodate.app"
+    },
+    "android": {
+      "package": "com.cosmodate.app"
     }
   }
 }

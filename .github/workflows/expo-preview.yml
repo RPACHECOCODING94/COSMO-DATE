@@ -3,9 +3,16 @@ name: Expo Preview
 on:
   pull_request:
 
+permissions:
+  contents: read
+  pull-requests: write
+  packages: read
+
 jobs:
   preview:
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -14,16 +21,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Expo CLI
-        run: npm install --global expo eas-cli
-
-      - name: Enable Corepack
-        run: corepack enable
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Install frontend dependencies
-        working-directory: frontend
-        run: yarn install --non-interactive
+        run: npm ci
 
       - name: Expo Preview Action
         uses: expo/expo-preview-action@v1.2.2

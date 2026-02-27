@@ -2,15 +2,19 @@ import json
 from pathlib import Path
 
 
-def test_expo_app_is_web_only():
+def test_expo_app_has_web_and_native_identifiers():
     app_json = Path("frontend/app.json")
     data = json.loads(app_json.read_text(encoding="utf-8"))
     expo = data.get("expo", {})
 
     assert "web" in expo
-    assert "ios" not in expo
-    assert "android" not in expo
     assert expo["web"].get("display") == "standalone"
+
+    ios = expo.get("ios", {})
+    android = expo.get("android", {})
+
+    assert ios.get("bundleIdentifier") == "com.cosmodate.app"
+    assert android.get("package") == "com.cosmodate.app"
 
 
 def test_package_scripts_default_to_web():
